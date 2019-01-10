@@ -6,7 +6,7 @@
     "Description": "Randomizes the starting mechwarriors and mechs.",
     "Author": "mpstark",
     "Website": "www.github.com/mpstark/RandomCampaignStart",
-    
+
     "Settings": {
         "RemoveAncestralMech": true,
 
@@ -17,7 +17,7 @@
 
         "StartingRonin": [
         ],
-        
+
         "NumberLightMechs": 3,
         "NumberMediumMechs": 2,
         "NumberHeavyMechs": 0,

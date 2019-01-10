@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomCampaignStart", "RandomCampaignStart\RandomCampaignStart.csproj", "{20CEF650-C940-4B2A-BB30-F382B3778C6E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7476982B-EC67-497B-A13D-0984112E4C8C}"
+	ProjectSection(SolutionItems) = preProject
+		mod.json = mod.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
