@@ -15,4 +15,4 @@ Every campaign should feel different! This mod randomizes the starting Mechwarri
 |_____MechsPossible|Which 'Mechs should be possible to get in each category. Duplicates will not be given unless not enough 'Mechs in the list. If you would like duplicates to be possible, add the 'Mechs to the list again.|all vanilla 'Mechs are included|
 
 ## Requirements
-Requires [BTML](https://github.com/BattletechModders/BattleTechModLoader/releases) and [ModTek](https://github.com/BattletechModders/ModTek/releases). [Installation instructions for BTML/ModTek](https://github.com/BattleTechModders/ModTek/wiki/The-Drop-Dead-Simple-Guide-to-Installing-BTML-&-ModTek-&-ModTek-mods).
+Requires [ModTek](https://github.com/BattletechModders/ModTek/releases). [Installation instructions for ModTek](https://github.com/BattleTechModders/ModTek/wiki/The-Drop-Dead-Simple-Guide-to-Installing-BTML-&-ModTek-&-ModTek-mods).

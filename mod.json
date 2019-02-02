@@ -2,8 +2,8 @@
     "Name": "RandomCampaignStart",
     "DLL": "RandomCampaignStart.dll",
 
-    "Version": "0.3.1",
-    "Description": "Randomizes the starting mechwarriors and mechs.",
+    "Version": "0.3.2",
+    "Description": "Randomizes the starting MechWarriors and 'Mechs.",
     "Author": "mpstark",
     "Website": "www.github.com/mpstark/RandomCampaignStart",
 
@@ -12,8 +12,8 @@
 
         "NumberRandomRonin": 4,
         "NumberProceduralPilots": 0,
-        "RerollRoninStats" : true,
-        "PilotPlanetDifficulty" : 0,
+        "RerollRoninStats": true,
+        "PilotPlanetDifficulty": 0,
 
         "StartingRonin": [
         ],

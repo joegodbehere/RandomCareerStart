@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace RandomCampaignStart
 {
@@ -15,15 +15,15 @@ namespace RandomCampaignStart
         public int NumberHeavyMechs = 0;
         public int NumberLightMechs = 3;
         public int NumberMediumMechs = 1;
-
-        public List<string> StartingRonin = new List<string>();
-
-        public bool RerollRoninStats = true;
-        public int PilotPlanetDifficulty = 1;
         public int NumberProceduralPilots = 0;
         public int NumberRandomRonin = 4;
+        public int PilotPlanetDifficulty = 1;
 
         public bool RemoveAncestralMech = false;
+
+        public bool RerollRoninStats = true;
+
+        public List<string> StartingRonin = new List<string>();
 
         public static ModSettings ReadSettings(string json)
         {

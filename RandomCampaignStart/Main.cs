@@ -6,6 +6,8 @@ using BattleTech;
 using Harmony;
 using HBS.Logging;
 
+// ReSharper disable UnusedMember.Global
+
 namespace RandomCampaignStart
 {
     public static class Main
@@ -26,7 +28,8 @@ namespace RandomCampaignStart
 
 
         // UTIL
-        private static readonly Random rng = new Random();
+        private static readonly Random RNG = new Random();
+
         public static void RNGShuffle<T>(this IList<T> list)
         {
             // from https://stackoverflow.com/questions/273313/randomize-a-listt
@@ -34,7 +37,7 @@ namespace RandomCampaignStart
             while (n > 1)
             {
                 n--;
-                var k = rng.Next(n + 1);
+                var k = RNG.Next(n + 1);
                 var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
@@ -61,7 +64,7 @@ namespace RandomCampaignStart
             return subList;
         }
 
-        public static void ReplacePilotStats(PilotDef pilotDef, PilotDef replacementStatPilotDef, SimGameState simGameState)
+        public static void ReplacePilotStats(PilotDef pilotDef, PilotDef replacementStatPilotDef)
         {
             // set all stats to the subPilot stats
             pilotDef.AddBaseSkill(SkillType.Gunnery, replacementStatPilotDef.BaseGunnery - pilotDef.BaseGunnery);
@@ -82,8 +85,7 @@ namespace RandomCampaignStart
             // copy abilities
             pilotDef.abilityDefNames.Clear();
             pilotDef.abilityDefNames.AddRange(replacementStatPilotDef.abilityDefNames);
-            if (pilotDef.AbilityDefs != null)
-                pilotDef.AbilityDefs.Clear();
+            pilotDef.AbilityDefs?.Clear();
             pilotDef.ForceRefreshAbilityDefs();
         }
 
@@ -101,7 +103,6 @@ namespace RandomCampaignStart
 
                 // starting ronin that are always present
                 if (Settings.StartingRonin != null && Settings.StartingRonin.Count > 0)
-                {
                     foreach (var pilotID in Settings.StartingRonin)
                     {
                         if (!simGame.DataManager.PilotDefs.Exists(pilotID))
@@ -113,32 +114,37 @@ namespace RandomCampaignStart
                         var pilotDef = simGame.DataManager.PilotDefs.Get(pilotID);
 
                         if (Settings.RerollRoninStats)
-                            ReplacePilotStats(pilotDef, simGame.PilotGenerator.GeneratePilots(1, Settings.PilotPlanetDifficulty, 0, out _)[0], simGame);
+                            ReplacePilotStats(pilotDef,
+                                simGame.PilotGenerator.GeneratePilots(1, Settings.PilotPlanetDifficulty, 0, out _)[0]);
 
                         simGame.AddPilotToRoster(pilotDef, true);
                         HBSLog.Log($"\tAdding StartingRonin {pilotDef.Description.Id}");
                     }
-                }
 
                 // random ronin
                 if (Settings.NumberRandomRonin > 0)
                 {
                     // make sure to remove the starting ronin list from the possible random pilots! yay linq
-                    var randomRonin = GetRandomSubList(simGame.RoninPilots.Where(x => !Settings.StartingRonin.Contains(x.Description.Id)).ToList(), Settings.NumberRandomRonin);
+                    var randomRonin =
+                        GetRandomSubList(
+                            simGame.RoninPilots.Where(x => !Settings.StartingRonin.Contains(x.Description.Id)).ToList(),
+                            Settings.NumberRandomRonin);
                     foreach (var pilotDef in randomRonin)
                     {
                         if (Settings.RerollRoninStats)
-                            ReplacePilotStats(pilotDef, simGame.PilotGenerator.GeneratePilots(1, Settings.PilotPlanetDifficulty, 0, out _)[0], simGame);
+                            ReplacePilotStats(pilotDef,
+                                simGame.PilotGenerator.GeneratePilots(1, Settings.PilotPlanetDifficulty, 0, out _)[0]);
 
                         simGame.AddPilotToRoster(pilotDef, true);
                         HBSLog.Log($"\tAdding random Ronin {pilotDef.Description.Id}");
                     }
                 }
 
-                // random prodedural pilots
+                // random procedural pilots
                 if (Settings.NumberProceduralPilots > 0)
                 {
-                    var randomProcedural = simGame.PilotGenerator.GeneratePilots(Settings.NumberProceduralPilots, Settings.PilotPlanetDifficulty, 0, out _);
+                    var randomProcedural = simGame.PilotGenerator.GeneratePilots(Settings.NumberProceduralPilots,
+                        Settings.PilotPlanetDifficulty, 0, out _);
                     foreach (var pilotDef in randomProcedural)
                     {
                         simGame.AddPilotToRoster(pilotDef, true);
@@ -148,7 +154,8 @@ namespace RandomCampaignStart
             }
 
             // mechs
-            if (Settings.NumberLightMechs + Settings.NumberMediumMechs + Settings.NumberHeavyMechs + Settings.NumberAssaultMechs > 0)
+            if (Settings.NumberLightMechs + Settings.NumberMediumMechs + Settings.NumberHeavyMechs +
+                Settings.NumberAssaultMechs > 0)
             {
                 HBSLog.Log("Randomizing mechs, removing old mechs");
 
@@ -173,9 +180,7 @@ namespace RandomCampaignStart
                 // remove mechIDs that don't have a valid mechDef
                 var numInvalid = mechIds.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
                 if (numInvalid > 0)
-                {
                     HBSLog.LogWarning($"\tREMOVED {numInvalid} INVALID MECHS! Check mod.json for misspellings");
-                }
 
                 // actually add the mechs to the game
                 foreach (var mechID in mechIds)

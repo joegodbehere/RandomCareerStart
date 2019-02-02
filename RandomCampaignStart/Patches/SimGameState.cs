@@ -1,7 +1,10 @@
 ﻿using BattleTech;
 using Harmony;
 
-namespace RandomCampaignStart
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
+
+namespace RandomCampaignStart.Patches
 {
     [HarmonyPatch(typeof(SimGameState), "FirstTimeInitializeDataFromDefs")]
     public static class SimGameState_FirstTimeInitializeDataFromDefs_Patch
