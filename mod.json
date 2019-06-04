@@ -9,16 +9,18 @@
 
     "Settings": {
         "RandomizeStoryCampaign": true,
-        "UseVanillaMechRandomizer": false,
-        "RemoveAncestralMech": true,
+
+        "RandomizePilots": true,
+        "RandomizeMechs": true,
 
         "NumberRandomRonin": 4,
-        "NumberProceduralPilots": 0,
         "RerollRoninStats": true,
+        "NumberProceduralPilots": 0,
         "PilotPlanetDifficulty": 0,
+        "StartingRonin": [],
 
-        "StartingRonin": [
-        ],
+        "UseVanillaMechRandomizer": false,
+        "RemoveAncestralMech": true,
 
         "NumberLightMechs": 3,
         "NumberMediumMechs": 2,

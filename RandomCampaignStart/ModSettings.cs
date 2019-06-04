@@ -26,6 +26,8 @@ namespace RandomCampaignStart
         public bool RerollRoninStats = true;
         public bool RandomizeStoryCampaign = false;
         public bool UseVanillaMechRandomizer = false;
+        public bool RandomizePilots = true;
+        public bool RandomizeMechs = true;
 
         public static ModSettings ReadSettings(string json)
         {

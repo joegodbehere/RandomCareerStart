@@ -12,13 +12,7 @@ namespace RandomCampaignStart.Patches
     {
         public static void Postfix(SimGameState __instance)
         {
-            switch (__instance.SimGameMode)
-            {
-                case SimGameState.SimGameType.KAMEA_CAMPAIGN when Main.Settings.RandomizeStoryCampaign:
-                case SimGameState.SimGameType.CAREER when __instance.Constants.CareerMode.StartWithRandomMechs:
-                    RandomizeSimGame.Randomize(__instance);
-                    break;
-            }
+            RandomizeSimGame.TryRandomize(__instance);
         }
     }
 }
