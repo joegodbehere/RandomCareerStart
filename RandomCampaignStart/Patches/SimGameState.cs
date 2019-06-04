@@ -12,7 +12,7 @@ namespace RandomCampaignStart.Patches
     {
         public static void Postfix(SimGameState __instance)
         {
-            Randomize.RandomizeSimGame(__instance);
+            RandomizeSimGame.Randomize(__instance);
         }
     }
 }

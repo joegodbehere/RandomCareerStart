@@ -41,7 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\Randomize.cs" />
+    <Compile Include="Features\RandomizeSimGame.cs" />
     <Compile Include="ModSettings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\SimGameState.cs" />

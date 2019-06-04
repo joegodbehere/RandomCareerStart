@@ -5,7 +5,7 @@ using BattleTech;
 
 namespace RandomCampaignStart.Features
 {
-    public static class Randomize
+    public static class RandomizeSimGame
     {
         private static readonly Random RNG = new Random();
 
@@ -69,7 +69,7 @@ namespace RandomCampaignStart.Features
         }
 
 
-        public static void RandomizeSimGame(SimGameState simGame)
+        public static void Randomize(SimGameState simGame)
         {
             if (Main.Settings.StartingRonin.Count + Main.Settings.NumberRandomRonin + Main.Settings.NumberProceduralPilots > 0)
             {
