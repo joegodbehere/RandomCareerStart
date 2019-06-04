@@ -20,9 +20,7 @@ namespace RandomCampaignStart
         public int PilotPlanetDifficulty = 1;
 
         public bool RemoveAncestralMech = false;
-
         public bool RerollRoninStats = true;
-
         public List<string> StartingRonin = new List<string>();
 
         public static ModSettings ReadSettings(string json)

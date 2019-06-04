@@ -1,5 +1,6 @@
 ﻿using BattleTech;
 using Harmony;
+using RandomCampaignStart.Features;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
@@ -11,7 +12,7 @@ namespace RandomCampaignStart.Patches
     {
         public static void Postfix(SimGameState __instance)
         {
-            Main.RandomizeSimGame(__instance);
+            Randomize.RandomizeSimGame(__instance);
         }
     }
 }

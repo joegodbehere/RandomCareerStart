@@ -2,7 +2,7 @@
     "Name": "RandomCampaignStart",
     "DLL": "RandomCampaignStart.dll",
 
-    "Version": "0.3.2",
+    "Version": "0.3.3",
     "Description": "Randomizes the starting MechWarriors and 'Mechs.",
     "Author": "mpstark",
     "Website": "www.github.com/mpstark/RandomCampaignStart",
