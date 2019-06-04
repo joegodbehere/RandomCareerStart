@@ -2,12 +2,14 @@
     "Name": "RandomCampaignStart",
     "DLL": "RandomCampaignStart.dll",
 
-    "Version": "0.3.3",
+    "Version": "1.6.0",
     "Description": "Randomizes the starting MechWarriors and 'Mechs.",
     "Author": "mpstark",
     "Website": "www.github.com/mpstark/RandomCampaignStart",
 
     "Settings": {
+        "RandomizeStoryCampaign": true,
+        "UseVanillaMechRandomizer": false,
         "RemoveAncestralMech": true,
 
         "NumberRandomRonin": 4,

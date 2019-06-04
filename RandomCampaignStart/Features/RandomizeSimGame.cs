@@ -131,6 +131,9 @@ namespace RandomCampaignStart.Features
                 }
             }
 
+            if (simGame.SimGameMode == SimGameState.SimGameType.CAREER && Main.Settings.UseVanillaMechRandomizer)
+                return;
+
             // mechs
             if (Main.Settings.NumberLightMechs + Main.Settings.NumberMediumMechs + Main.Settings.NumberHeavyMechs +
                 Main.Settings.NumberAssaultMechs > 0)
