@@ -30,7 +30,9 @@ With 1.6, you can choose if you'd like a random start by selecting the randomize
 |NumberMediumMechs|Number of randomized medium 'Mechs|2|
 |NumberHeavyMechs|Number of randomized heavy 'Mechs|0|
 |NumberAssaultMechs|Number of randomized assault 'Mechs to start with|0|
-|_____MechsPossible|Which 'Mechs should be possible to get in each category. Duplicates will not be given unless not enough 'Mechs in the list. If you would like duplicates to be possible, add the 'Mechs to the list again.|all vanilla 'Mechs are included|
+|UseWhitelist|Use whitelist (specify what can occur) instead of blacklist (specify what can't occur)|false|
+|Whitelist|List of 'Mechs that should be randomly chosen between|empty list []|
+|Blacklist|List of 'Mechs that shouldn't be randomly chosen|empty list []|
 
 ## Requirements
 Requires [ModTek](https://github.com/BattletechModders/ModTek/releases). [Installation instructions for ModTek](https://github.com/BattleTechModders/ModTek/wiki/The-Drop-Dead-Simple-Guide-to-Installing-BTML-&-ModTek-&-ModTek-mods).
