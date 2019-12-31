@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BattleTech;
+using Harmony;
 
 namespace RandomCampaignStart.Features
 {
@@ -64,24 +65,43 @@ namespace RandomCampaignStart.Features
                 simGame.ActiveMechs.Remove(0);
             }
 
-            var assault = new List<string>(Main.Settings.AssaultMechsPossible);
-            var heavy = new List<string>(Main.Settings.HeavyMechsPossible);
-            var medium = new List<string>(Main.Settings.MediumMechsPossible);
-            var light = new List<string>(Main.Settings.LightMechsPossible);
+            List<string> possibleMechs;
+            if (Main.Settings.UseWhitelist)
+            {
+                possibleMechs = new List<string>(Main.Settings.Whitelist);
 
-            // remove mechDef ids that aren't in DataManager
-            assault.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
-                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
-            assault.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
-            heavy.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
-                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
-            heavy.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
-            medium.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
-                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
-            medium.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
-            light.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
-                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
-            light.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
+                // remove items on whitelist that aren't in the datamanager
+                possibleMechs.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
+                    .Do(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
+                possibleMechs.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
+            }
+            else
+            {
+                possibleMechs = new List<string>(simGame.DataManager.MechDefs.Keys);
+
+                // remove mechs with tags
+                possibleMechs.FindAll(id => simGame.DataManager.MechDefs.Get(id).MechTags.Contains("BLACKLISTED"))
+                    .Do(id => Main.HBSLog.Log($"\tRemoving blacklisted (by tag) MechDef '{id}' from possibilities"));
+                possibleMechs.RemoveAll(id => simGame.DataManager.MechDefs.Get(id).MechTags.Contains("BLACKLISTED"));
+
+                // remove mechs from blacklist in settings
+                var intersect = possibleMechs.Intersect(Main.Settings.Blacklist).ToArray();
+                foreach (var id in intersect)
+                {
+                    Main.HBSLog.Log($"\tRemoving blacklisted (by settings) MechDef '{id}' from possibilities");
+                    possibleMechs.Remove(id);
+                }
+            }
+
+            // sort possible mechs into buckets
+            var assault = new List<string>(possibleMechs
+                .FindAll(id => simGame.DataManager.MechDefs.Get(id).Chassis.weightClass == WeightClass.ASSAULT));
+            var heavy = new List<string>(possibleMechs
+                .FindAll(id => simGame.DataManager.MechDefs.Get(id).Chassis.weightClass == WeightClass.HEAVY));
+            var medium = new List<string>(possibleMechs
+                .FindAll(id => simGame.DataManager.MechDefs.Get(id).Chassis.weightClass == WeightClass.MEDIUM));
+            var light = new List<string>(possibleMechs
+                .FindAll(id => simGame.DataManager.MechDefs.Get(id).Chassis.weightClass == WeightClass.LIGHT));
 
             // add the random mechs to mechIds
             var mechIds = new List<string>();
@@ -143,7 +163,8 @@ namespace RandomCampaignStart.Features
                 // make sure to remove the starting ronin list from the possible random pilots! yay linq
                 var randomRonin =
                     GetRandomSubList(
-                        simGame.RoninPilots.Where(x => !Main.Settings.StartingRonin.Contains(x.Description.Id))
+                        simGame.RoninPilots
+                            .Where(x => !Main.Settings.StartingRonin.Contains(x.Description.Id))
                             .ToList(),
                         Main.Settings.NumberRandomRonin);
                 foreach (var pilotDef in randomRonin)

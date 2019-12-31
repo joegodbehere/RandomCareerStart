@@ -8,10 +8,9 @@ namespace RandomCampaignStart
     {
         public List<string> StartingRonin = new List<string>();
 
-        public List<string> AssaultMechsPossible = new List<string>();
-        public List<string> HeavyMechsPossible = new List<string>();
-        public List<string> LightMechsPossible = new List<string>();
-        public List<string> MediumMechsPossible = new List<string>();
+        public bool UseWhitelist = false;
+        public List<string> Whitelist = new List<string>();
+        public List<string> Blacklist = new List<string>();
 
         public int NumberAssaultMechs = 0;
         public int NumberHeavyMechs = 0;
