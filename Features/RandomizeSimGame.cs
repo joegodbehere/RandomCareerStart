@@ -64,17 +64,31 @@ namespace RandomCampaignStart.Features
                 simGame.ActiveMechs.Remove(0);
             }
 
+            var assault = new List<string>(Main.Settings.AssaultMechsPossible);
+            var heavy = new List<string>(Main.Settings.HeavyMechsPossible);
+            var medium = new List<string>(Main.Settings.MediumMechsPossible);
+            var light = new List<string>(Main.Settings.LightMechsPossible);
+
+            // remove mechDef ids that aren't in DataManager
+            assault.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
+                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
+            assault.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
+            heavy.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
+                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
+            heavy.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
+            medium.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
+                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
+            medium.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
+            light.FindAll(id => !simGame.DataManager.MechDefs.Exists(id))
+                   .ForEach(id => Main.HBSLog.LogWarning($"\tInvalid MechDef '{id}'. Will remove from possibilities"));
+            light.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
+
             // add the random mechs to mechIds
             var mechIds = new List<string>();
-            mechIds.AddRange(GetRandomSubList(Main.Settings.AssaultMechsPossible, Main.Settings.NumberAssaultMechs));
-            mechIds.AddRange(GetRandomSubList(Main.Settings.HeavyMechsPossible, Main.Settings.NumberHeavyMechs));
-            mechIds.AddRange(GetRandomSubList(Main.Settings.MediumMechsPossible, Main.Settings.NumberMediumMechs));
-            mechIds.AddRange(GetRandomSubList(Main.Settings.LightMechsPossible, Main.Settings.NumberLightMechs));
-
-            // remove mechIDs that don't have a valid mechDef
-            var numInvalid = mechIds.RemoveAll(id => !simGame.DataManager.MechDefs.Exists(id));
-            if (numInvalid > 0)
-                Main.HBSLog.LogWarning($"\tREMOVED {numInvalid} INVALID MECHS! Check mod.json for misspellings");
+            mechIds.AddRange(GetRandomSubList(assault, Main.Settings.NumberAssaultMechs));
+            mechIds.AddRange(GetRandomSubList(heavy, Main.Settings.NumberHeavyMechs));
+            mechIds.AddRange(GetRandomSubList(medium, Main.Settings.NumberMediumMechs));
+            mechIds.AddRange(GetRandomSubList(light, Main.Settings.NumberLightMechs));
 
             // actually add the mechs to the game
             foreach (var mechID in mechIds)
