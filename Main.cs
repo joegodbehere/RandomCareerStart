@@ -13,7 +13,7 @@ namespace RandomCareerStart
         // ENTRY POINT
         public static void Init(string modDir, string modSettings)
         {
-            var harmony = HarmonyInstance.Create("io.github.joegodbehere.RandomCareerStart");
+            var harmony = HarmonyInstance.Create("com.battletech.RandomCareerStart");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             HBSLog = HBS.Logging.Logger.GetLogger("RandomCareerStart");
