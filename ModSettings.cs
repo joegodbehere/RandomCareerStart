@@ -63,7 +63,7 @@ namespace RandomCareerStart
             }
             catch (Exception e)
             {
-                Main.HBSLog.Log($"Reading settings failed: {e.Message}");
+                Logger.Log($"Reading settings failed: {e.Message}");
                 settings = new ModSettings();
             }
 
