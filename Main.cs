@@ -4,7 +4,7 @@ using HBS.Logging;
 
 // ReSharper disable UnusedMember.Global
 
-namespace RandomCampaignStart
+namespace RandomCareerStart
 {
     public static class Main
     {

@@ -7,9 +7,9 @@
     <ProjectGuid>{20CEF650-C940-4B2A-BB30-F382B3778C6E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RandomCampaignStart</RootNamespace>
-    <AssemblyName>RandomCampaignStart</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <RootNamespace>RandomCareerStart</RootNamespace>
+    <AssemblyName>RandomCareerStart</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -43,7 +43,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\RandomizeSimGame.cs" />
+    <Compile Include="Features\RandomizeCareerPilots.cs" />
+    <Compile Include="Features\RandomizeCareerMechs.cs" />
     <Compile Include="ModSettings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\SimGameState.cs" />
