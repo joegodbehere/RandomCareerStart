@@ -46,6 +46,7 @@ namespace RandomCareerStart
         public int MinimumMediumMechs = 1;
         public int MaximumMediumMechs = 1;
         public bool AllowDuplicateChassis = false;
+        public bool AllowDuplicateMech = false;
 
         public bool Infestation = false;
         public bool Debug = false;

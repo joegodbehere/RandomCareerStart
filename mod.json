@@ -3,7 +3,7 @@
 	"DLL": "RandomCareerStart.dll",
 	"Version": "4.0",
 	"Description": "Randomizes the starting mechwarriors and mechs.",
-	"Author": "dogthinker and donZappo and gnivler, based upon code and concept by mpstark",
+	"Author": "joegodbehere and donZappo and gnivler, based upon code and concept by mpstark",
 	"ConflictsWith": [
 		"RandomCampaignStart"
 	],
@@ -30,7 +30,7 @@
 		"MaximumLanceTonnage": 155,
 		"MechPercentageStartingCost": 0,
 
-		/* Lance composition
+		/* Lance composition */
 		"MinimumMediumMechs": 1,
 		"MaximumMediumMechs": 1,
 
@@ -38,6 +38,7 @@
 		"MinimumMechTonnage": 20,
 		"MaximumMechTonnage": 45,
 		"AllowDuplicateChassis": false,
+		"AllowDuplicateMech": false,
 		"AllowCustomMechs": false,
 		"MaximumRVMechs": 1,
 		"MaximumGhettoMechs": 1,

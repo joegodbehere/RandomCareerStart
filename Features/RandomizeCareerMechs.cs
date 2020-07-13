@@ -222,6 +222,18 @@ namespace RandomCareerStart.Features
         }
 
 
+        private void RemoveChassis(ChassisDef chassis)
+        {
+            string prefix = chassis.Description.Id.Substring(0, 12);
+            //PossibleByTonnage[mech.Chassis.Tonnage].RemoveAll(mech => mech.Chassis.Description.Id.Substring(0, 12).Equals(prefix));
+            PossibleAssault.RemoveAll(mech => mech.Chassis.Description.Id.Substring(0, 12).Equals(prefix));
+            PossibleHeavy.RemoveAll(mech => mech.Chassis.Description.Id.Substring(0, 12).Equals(prefix));
+            PossibleMedium.RemoveAll(mech => mech.Chassis.Description.Id.Substring(0, 12).Equals(prefix));
+            PossibleLight.RemoveAll(mech => mech.Chassis.Description.Id.Substring(0, 12).Equals(prefix));
+            PossibleMechs.RemoveAll(mech => mech.Chassis.Description.Id.Substring(0, 12).Equals(prefix));
+        }
+
+
         private bool SelectRandomMech(List<MechDef> mechs, out MechDef mech)
         {
             if (mechs.Count > 0)
@@ -282,9 +294,13 @@ namespace RandomCareerStart.Features
                 lance.Add(mech);
                 lanceTonnage += mech.Chassis.Tonnage;
                 Main.HBSLog.Log($"\tAdded ancestral mech: {mech.ChassisID}");
-                if (Main.Settings.AllowDuplicateChassis == false)
+                if (Main.Settings.AllowDuplicateMech == false)
                 {
                     RemoveMech(mech);
+                }
+                if (Main.Settings.AllowDuplicateChassis == false)
+                {
+                    RemoveChassis(mech.Chassis);
                 }
             }
             else
