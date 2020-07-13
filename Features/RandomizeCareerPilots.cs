@@ -8,6 +8,10 @@ namespace RandomCareerStart.Features
 {
     class RandomizeCareerPilots
     {
+        /// <summary>
+        /// Recruits random pilots to the game instance
+        /// </summary>
+        /// <param name="simGame"></param>
         public static void TryRandomize(SimGameState simGame)
         {
             if (simGame.SimGameMode != SimGameState.SimGameType.CAREER)
@@ -16,32 +20,44 @@ namespace RandomCareerStart.Features
             if (!Main.Settings.RandomizePilots)
                 return;
 
-            // Commented out this block, an empty starting CAREER roster sounds reasonable to me
-            //var numPilots = Main.Settings.StartingRonin.Count + Main.Settings.NumberRandomRonin +
-            //        Main.Settings.NumberProceduralPilots;
-            //if (numPilots <= 0)
-            //{
-            //    Main.HBSLog.LogWarning("Tried to randomize pilots but settings had 0!");
-            //    return;
-            //}
+            var numPilots = Main.Settings.NumberRoninFromList + Main.Settings.NumberRandomRonin +
+                    Main.Settings.NumberProceduralPilots;
+            if (numPilots <= 0)
+            {
+                Logger.LogWarning("Tried to randomize pilots but settings had total count of: {numPilots}");
+                return;
+            }
 
             ClearPilotList(simGame);
-            AddRoninFromList(simGame, Main.Settings.StartingRonin, Main.Settings.NumberRoninFromList);
-            AddRandomRonin(simGame, Main.Settings.NumberRandomRonin);
-            AddProceduralPilots(simGame, Main.Settings.NumberProceduralPilots);
+
+            // make up the numbers in the lesser types if there are not enough Ronin
+            int shortage = AddRoninFromList(simGame, Main.Settings.StartingRonin, Main.Settings.NumberRoninFromList);
+            shortage = AddRandomRonin(simGame, Main.Settings.NumberRandomRonin + shortage);
+            AddProceduralPilots(simGame, Main.Settings.NumberProceduralPilots + shortage);
         }
 
 
+        /// <summary>
+        /// Clears the existing roster, without modifying the pilots.
+        /// </summary>
+        /// <param name="simGame"></param>
         public static void ClearPilotList(SimGameState simGame)
         {
-            Main.HBSLog.Log("Removing old pilots");
+            Logger.Log("Removing old pilots");
             // clear roster
             while (simGame.PilotRoster.Count > 0)
                 simGame.PilotRoster.RemoveAt(0);
         }
 
 
-        public static void AddRoninFromList(SimGameState simGame, List<String> pilots, int n)
+        /// <summary>
+        /// Add n randomly selected Ronin pilots from the given list to the roster
+        /// </summary>
+        /// <param name="simGame"></param>
+        /// <param name="pilots">Whitelist of Ronin</param>
+        /// <param name="n">How many to select</param>
+        /// <returns>the number of pilots it was short by</returns>
+        public static int AddRoninFromList(SimGameState simGame, List<String> pilots, int n)
         {
             List<string> _pilots = new List<string>(pilots);
             while (n > 0 && _pilots.Count > 0)
@@ -54,31 +70,37 @@ namespace RandomCareerStart.Features
                     {
                         --n;
                         pilot.SetDayOfHire(simGame.DaysPassed);
-                        Main.HBSLog.Log($"\tAdded ronin from list: {pilot.Description.Id}");
+                        Logger.Log($"\tAdded ronin from list: {pilot.Description.Id}");
                     }
                     else
                     {
-                        Main.HBSLog.Log($"\tFailed to add Ronin from list: {pilot.Description.Id}");
+                        Logger.LogError($"\tFailed to add Ronin from list: {pilot.Description.Id}");
                     }
                 }
                 else
                 {
-                    Main.HBSLog.Log($"\tSkipping ronin from list, does not exist: {_pilots[i]}");
+                    Logger.LogError($"\tSkipping ronin from list, does not exist: {_pilots[i]}");
                 }
                 _pilots.RemoveAt(i);
             }
             if (n > 0)
             {
-                Main.HBSLog.LogWarning($"\tList of ronin pilots was short by: {n}");
-                //Logger.Debug($"List of pilots was short by: {n}");
+                Logger.LogError($"\tList of ronin pilots was short by: {n}");
             }
+            return n;
         }
 
-
-        public static void AddRandomRonin(SimGameState simGame, int n)
+        /// <summary>
+        /// Add n randomly selected Ronin pilots to the roster
+        /// </summary>
+        /// <param name="simGame"></param>
+        /// <param name="pilots">Whitelist of Ronin</param>
+        /// <param name="n">How many to select</param>
+        /// <returns>the number of pilots it was short by (should always be 0)</returns>
+        public static int AddRandomRonin(SimGameState simGame, int n)
         {
             if (n <= 0)
-                return;
+                return n;
 
             // make sure to remove the starting ronin list from the possible random pilots! yay linq
             var randomRonin = simGame.RoninPilots
@@ -96,46 +118,50 @@ namespace RandomCareerStart.Features
                 {
                     --n;
                     pilot.SetDayOfHire(simGame.DaysPassed);
-                    Main.HBSLog.Log($"\tAdded random Ronin: {pilot.Description.Id}");
+                    Logger.Log($"\tAdded random Ronin: {pilot.Description.Id}");
                 }
                 else
                 {
-                    Main.HBSLog.Log($"\tFailed to add random Ronin: {pilot.Description.Id}");
+                    Logger.Log($"\tFailed to add random Ronin: {pilot.Description.Id}");
                 }
             }
             if (n > 0)
             {
-                Main.HBSLog.Log($"\tFailed to add enough random Ronin, needed another: {n}");
+                Logger.Log($"\tFailed to add enough random Ronin, needed another: {n}");
             }
+            return n;
         }
 
 
-        //Code for randomizing starting pilots
+        /// <summary>
+        /// Add n randomly generated pilots to the roster
+        /// </summary>
+        /// <param name="simGame"></param>
+        /// <param name="n">How many pilots</param>
         public static void AddProceduralPilots(SimGameState simGame, int n)
         {
-            var pilots = simGame.PilotGenerator.GeneratePilots(1, Main.Settings.PilotPlanetDifficulty, 0f, out _);
-            int count = 0;
-            foreach (var pilot in pilots)
+            while (n > 0)
             {
-                if (!simGame.CanPilotBeCareerModeStarter(pilot))
+                var pilots = simGame.PilotGenerator.GeneratePilots(n, Main.Settings.PilotPlanetDifficulty, 0f, out _);
+                foreach (var pilot in pilots)
                 {
-                    Main.HBSLog.Log($"\tProcedural pilot unsuitable for starting roster: {pilot.Description.Id}");
-                    continue;
-                }
-                if (simGame.AddPilotToRoster(pilot, false, true))
-                {
-                    ++count;
-                    pilot.SetDayOfHire(simGame.DaysPassed);
-                    Main.HBSLog.Log($"\tAdded procedural pilot: {pilot.Description.Id}");
-                }
-                else
-                {
-                    Main.HBSLog.Log($"\tFailed to add procedural pilot: {pilot.Description.Id}");
+                    if (!simGame.CanPilotBeCareerModeStarter(pilot))
+                    {
+                        Logger.Log($"\tProcedural pilot unsuitable for starting roster: {pilot.Description.Id}");
+                        continue;
+                    }
+                    if (simGame.AddPilotToRoster(pilot, false, true))
+                    {
+                        --n;
+                        pilot.SetDayOfHire(simGame.DaysPassed);
+                        Logger.Log($"\tAdded procedural pilot: {pilot.Description.Id}");
+                    }
+                    else
+                    {
+                        Logger.Log($"\tFailed to add procedural pilot: {pilot.Description.Id}");
+                    }
                 }
             }
-            // recurse if we're short
-            if (count < n)
-                AddProceduralPilots(simGame, n - count);
         }
     }
 }

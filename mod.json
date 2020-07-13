@@ -33,6 +33,7 @@
 		/* Lance composition */
 		"MinimumMediumMechs": 1,
 		"MaximumMediumMechs": 1,
+		"RandomiseAncestralVariant": true,
 
 		/* Mech restrictions */
 		"MinimumMechTonnage": 20,
@@ -132,6 +133,7 @@
 
 		/* Dev toggles */
 		"Debug": true,
+		"DebugVerbose": false,
 		"Infestation": true
 	}
 }

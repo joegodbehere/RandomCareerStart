@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Harmony;
-using HBS.Logging;
 
 // ReSharper disable UnusedMember.Global
 
@@ -8,7 +7,7 @@ namespace RandomCareerStart
 {
     public static class Main
     {
-        internal static ILog HBSLog;
+        internal static HBS.Logging.ILog HBSLog;
         internal static ModSettings Settings;
 
         // ENTRY POINT
@@ -17,7 +16,8 @@ namespace RandomCareerStart
             var harmony = HarmonyInstance.Create("io.github.joegodbehere.RandomCareerStart");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            HBSLog = Logger.GetLogger("RandomCareerStart");
+            HBSLog = HBS.Logging.Logger.GetLogger("RandomCareerStart");
+            Logger.Prefix = "RandomCareerStart: ";
             Settings = ModSettings.ReadSettings(modSettings);
         }
     }

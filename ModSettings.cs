@@ -47,9 +47,11 @@ namespace RandomCareerStart
         public int MaximumMediumMechs = 1;
         public bool AllowDuplicateChassis = false;
         public bool AllowDuplicateMech = false;
+        public bool RandomiseAncestralVariant = false;
 
         public bool Infestation = false;
         public bool Debug = false;
+        public bool DebugVerbose = false;
 
         public static ModSettings ReadSettings(string json)
         {
