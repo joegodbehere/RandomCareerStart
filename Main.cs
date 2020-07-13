@@ -14,10 +14,10 @@ namespace RandomCareerStart
         // ENTRY POINT
         public static void Init(string modDir, string modSettings)
         {
-            var harmony = HarmonyInstance.Create("io.github.mpstark.RandomCampaignStart");
+            var harmony = HarmonyInstance.Create("io.github.joegodbehere.RandomCareerStart");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            HBSLog = Logger.GetLogger("RandomCampaignStart");
+            HBSLog = Logger.GetLogger("RandomCareerStart");
             Settings = ModSettings.ReadSettings(modSettings);
         }
     }
