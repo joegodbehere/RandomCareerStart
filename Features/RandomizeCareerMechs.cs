@@ -77,7 +77,7 @@ namespace RandomCareerStart.Features
             }
             // pick out the lances that didn't blow the tonnage budget
             var optimalLances = lances.FindAll(lance => lance.Sum(mech => mech.Chassis.Tonnage) >= Main.Settings.MinimumLanceTonnage
-                    && lance.Sum(mech => mech.Chassis.Tonnage) >= Main.Settings.MinimumLanceTonnage);
+                    && lance.Sum(mech => mech.Chassis.Tonnage) <= Main.Settings.MaximumLanceTonnage);
             if (optimalLances.Count > 0)
             {
                 var selected = optimalLances.GetRandomIndex();
