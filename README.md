@@ -11,6 +11,7 @@ Every campaign should feel different! This mod randomizes the starting Mechwarri
 |NumberRandomRonin|Number of random ronin to give you|1|
 |NumberRoninFromList|Number of ronin to randomly select from the following list|1| 
 |StartingRonin|A list of the Ronin/Kickstarter Mechwarriors PilotDef IDs that you'd like to be guaranteed to get|empty list|
+|PilotUnspentExperienceBonus|Amount of bonus starting XP for all pilots on the roster|0| 
 
 ### Mechs
 
@@ -24,6 +25,8 @@ Every campaign should feel different! This mod randomizes the starting Mechwarri
 |MinimumMediumMechs|At least this many mechs will be Medium class mechs|1|
 |MaximumMediumMechs|At most this many mechs will be Medium class mechs|1|
 |RandomiseAncestralVariant|If an ancestral mech is specified, should it be rerolled to a different variant of that type?|true|
+|UseLanceTonnageProfile|Generate a lance with exact weights, instead of use the main settings|false|
+|LanceTonnageProfile|If the above option is true, the mechs will have these exact weights|[50, 50, 50]|
 |MinimumMechTonnage|The minimal weight of any mech|45|
 |MaximumMechTonnage|The maximal weight of any mech|20|
 |AllowDuplicateChassis|Can the same chassis type appear more than once?|false|
