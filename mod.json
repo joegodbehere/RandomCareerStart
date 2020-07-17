@@ -22,6 +22,7 @@
 			"pilot_sim_starter_dekker",
 			"pilot_sim_starter_glitch"
 		],
+		"PilotUnspentExperienceBonus": 0,
 
 		/* Lance size */
 		"MinimumLanceSize": 5,

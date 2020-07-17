@@ -13,6 +13,7 @@ namespace RandomCareerStart
         public int NumberRandomRonin = 0;
         public int NumberProceduralPilots = 3;
         public int PilotPlanetDifficulty = 1;
+        public int PilotUnspentExperienceBonus = 0;
 
         // mechs
         public bool RandomizeMechs = true;

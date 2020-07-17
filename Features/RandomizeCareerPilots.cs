@@ -34,6 +34,14 @@ namespace RandomCareerStart.Features
             int shortage = AddRoninFromList(simGame, Main.Settings.StartingRonin, Main.Settings.NumberRoninFromList);
             shortage = AddRandomRonin(simGame, Main.Settings.NumberRandomRonin + shortage);
             AddProceduralPilots(simGame, Main.Settings.NumberProceduralPilots + shortage);
+
+            if (Main.Settings.PilotUnspentExperienceBonus > 0)
+            {
+                foreach(var p in simGame.PilotRoster)
+                {
+                    p.AddExperience(0, "RandomCareerStart", Main.Settings.PilotUnspentExperienceBonus);
+                }
+            }
         }
 
 
