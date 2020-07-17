@@ -1,7 +1,7 @@
 {
 	"Name": "FullRandomCareerStart",
 	"DLL": "RandomCareerStart.dll",
-	"Version": "4.0",
+	"Version": "4.1.0",
 	"Description": "Randomizes the starting mechwarriors and mechs.",
 	"Author": "joegodbehere and donZappo and gnivler, based upon code and concept by mpstark",
 	"ConflictsWith": [
