@@ -34,6 +34,8 @@
 		"MinimumMediumMechs": 1,
 		"MaximumMediumMechs": 1,
 		"RandomiseAncestralVariant": true,
+		"UseLanceTonnageProfile" : false,
+		"LanceTonnageProfile" : [50, 50, 50],
 
 		/* Mech restrictions */
 		"MinimumMechTonnage": 20,

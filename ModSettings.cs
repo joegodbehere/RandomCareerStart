@@ -21,6 +21,8 @@ namespace RandomCareerStart
         public bool UseWhitelist = false;
         public List<string> Whitelist = new List<string>();
         public List<string> Blacklist = new List<string>();
+        public bool UseLanceTonnageProfile = false;
+        public List<int> LanceTonnageProfile = new List<int>();
 
         //public int NumberAssaultMechs = 0;
         //public int NumberHeavyMechs = 0;
@@ -63,8 +65,8 @@ namespace RandomCareerStart
             }
             catch (Exception e)
             {
-                Logger.Log($"Reading settings failed: {e.Message}");
                 settings = new ModSettings();
+                Logger.Log($"Reading settings failed: {e.Message}");
             }
 
             return settings;

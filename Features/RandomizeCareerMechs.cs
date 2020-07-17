@@ -43,10 +43,26 @@ namespace RandomCareerStart.Features
             //TODO sanity check the inputs
             // LogWarning("Tried to randomize mechs but settings had 0!");
 
-            var lances = new List<List<MechDef>>();
 
             var randy = new RandomizeCareerMechs();
+
+            // Build a lance exactly as specified, disregarding all other settings (except the RV limit)
+            if (Main.Settings.UseLanceTonnageProfile)
+            {
+                // override json settings for max/min mech tonnage, so we don't filter out sizes required by the profile
+                Main.Settings.MaximumMechTonnage = Main.Settings.LanceTonnageProfile.Max();
+                Main.Settings.MinimumMechTonnage = Main.Settings.LanceTonnageProfile.Min();
+                randy.FilterAllowedMechs(simGame);
+                List<MechDef> lance = randy.GetLanceMatchingTonnageProfile(simGame, Main.Settings.LanceTonnageProfile);
+                ApplyLance(simGame, lance);
+                return;
+            }
+
+            // Use main algorithm for filtering and selecting the mechs
+
+            var lances = new List<List<MechDef>>();
             randy.FilterAllowedMechs(simGame);
+
             for (int i = 0; i < randy.NUM_LANCES; ++i)
             {
                 List<MechDef> lance = randy.GetRandomLance(simGame);
@@ -273,6 +289,39 @@ namespace RandomCareerStart.Features
                 default: mechs = PossibleAssault; break;
             }
             return SelectRandomMech(mechs, out mech);
+        }
+
+
+        private List<MechDef> GetLanceMatchingTonnageProfile(SimGameState simGame, List<int> tonnageProfile)
+        {
+            PossibleMechs = new List<MechDef>(AllowedMechs);
+            List<MechDef> lance = new List<MechDef>();
+            float lanceTonnage = 0;
+            bool filteredRV = false;
+            foreach (int tonnage in tonnageProfile)
+            {
+                MechDef candidate = PossibleMechs.Where(mech => mech.Chassis.Tonnage == tonnage).GetRandomElement();
+                if (candidate == null)
+                {
+                    Logger.LogError($"\tNo valid mechs left to choose from! It's spiders all the way down!");
+                    candidate = simGame.DataManager.MechDefs.Get("mechdef_spider_SDR-5V");
+                }
+                AddMechToLance(candidate, lance);
+                lanceTonnage += candidate.Chassis.Tonnage;
+
+                // apply some dynamic filters:
+                Logger.LogVerbose("\tchecking RV count");
+                if (!filteredRV && Main.Settings.MaximumRVMechs <= lance.FindAll(mech => mech.Description.UIName.Contains("-RV")).Count)
+                {
+                    Logger.Log($"\tMax -RV reached, filtering out remaining -RV");
+                    PossibleMechs.FindAll(mech => mech.Description.UIName.EndsWith("-RV"))
+                            .Do(mech => Logger.LogVerbose($"\tRemoving RV MechDef '{mech.ChassisID}' from possibilities"));
+                    PossibleMechs.RemoveAll(mech => mech.Description.UIName.Contains("-RV"));
+                    filteredRV = true;
+                }
+            }
+            Logger.Log($"\tSelected lance size {lance.Count} with tonnage {lanceTonnage}: {string.Join(", ", lance.Select(mech => mech.ChassisID))}");
+            return lance;
         }
 
 

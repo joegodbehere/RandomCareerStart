@@ -5,7 +5,7 @@ namespace RandomCareerStart
     /// Convenience class, it just filters out low level logs unless the settings are enabled.
     /// Also prefixes the messages with the mod name, to make them easier to spot.
     /// </summary>
-    class Logger
+    internal class Logger
     {
         public static string Prefix = "";
 
