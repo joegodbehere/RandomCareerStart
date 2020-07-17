@@ -19,8 +19,8 @@ namespace RandomCareerStart.Features
 
         // how many lances to generate
         // success rate with default settings is >80% ...
-        // so failing all 10 would be a 1 in 10 million event...
-        private int NUM_LANCES = 10;
+        // so failing all 14 would be a 1 in 6 billion event...
+        private int NUM_LANCES = 14;
 
         /// <summary>
         /// Adds a randomly generated lance to the game instance
